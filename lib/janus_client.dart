@@ -125,10 +125,13 @@ class JanusClient {
     } else if (_sessionId != null && handleId != null) {
       suffixUrl = suffixUrl + "/$_sessionId/$handleId";
     }
-    HttpClient client = HttpClient()
-    ..badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
+
+    final ioc = new HttpClient();
+        ioc.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+    final mhttp = new IOClient(ioc);
     
-    var response = (await client.post(Uri.parse(_currentJanusUri + suffixUrl),
+    var response = (await mhttp.post(Uri.parse(_currentJanusUri + suffixUrl),
             body: stringify(bod)))
         .body;
     print(response);
