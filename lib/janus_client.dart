@@ -125,7 +125,10 @@ class JanusClient {
     } else if (_sessionId != null && handleId != null) {
       suffixUrl = suffixUrl + "/$_sessionId/$handleId";
     }
-    var response = (await http.post(Uri.parse(_currentJanusUri + suffixUrl),
+    HttpClient client = HttpClient()
+    ..badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
+    
+    var response = (await client.post(Uri.parse(_currentJanusUri + suffixUrl),
             body: stringify(bod)))
         .body;
     print(response);
