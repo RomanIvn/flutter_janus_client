@@ -13,6 +13,7 @@ import 'utils.dart';
 export 'Plugin.dart';
 export 'utils.dart';
 export 'WebRTCHandle.dart';
+import 'package:http/io_client.dart';
 
 /// Main Class for setting up janus server connection details and important methods for interacting with janus server
 class JanusClient {
