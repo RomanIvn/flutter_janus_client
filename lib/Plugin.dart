@@ -708,7 +708,8 @@ import 'package:flutter/foundation.dart';
 import 'WebRTCHandle.dart';
 import 'janus_client.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:http/io_client.dart'
+  
 /// This Class exposes methods and utility function necessary for directly interacting with plugin.
 class Plugin {
   String plugin;
@@ -822,7 +823,12 @@ class Plugin {
     } else if (_sessionId != null && handleId != null) {
       suffixUrl = suffixUrl + "/$_sessionId/$handleId";
     }
-    return parse((await http.post(
+    final ioc = new HttpClient();
+        ioc.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+    final mhttp = new IOClient(ioc);
+    
+    return parse((await mhttp.post(
         Uri.parse(_context.currentJanusURI + suffixUrl),
         body: stringify(bod)))
         .body);
